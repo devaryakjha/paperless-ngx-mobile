@@ -43,107 +43,119 @@ class _AuthPageState extends State<AuthPage> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'auth.title',
-                style: context.textTheme.h2,
-                textAlign: TextAlign.center,
-              ).tr(),
-              const Gap(36),
-              ShadInputFormField(
-                id: 'server',
-                autofocus: true,
-                placeholder: const Text('auth.server.placeholder').tr(),
-                autofillHints: const [AutofillHints.url],
-                keyboardType: TextInputType.url,
-                textInputAction: TextInputAction.next,
-                prefix: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: ShadImage.square(size: 16, LucideIcons.link),
-                ),
-                decoration: _decoration,
-                validator: (p0) {
-                  if (p0.isEmpty) {
-                    return 'auth.server.error.required'.tr();
-                  }
+          child: AutofillGroup(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 400),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'auth.title',
+                        style: context.textTheme.h2,
+                        textAlign: TextAlign.center,
+                      ).tr(),
+                      const Gap(36),
+                      ShadInputFormField(
+                        id: 'server',
+                        autofocus: true,
+                        placeholder: const Text('auth.server.placeholder').tr(),
+                        autofillHints: const [AutofillHints.url],
+                        keyboardType: TextInputType.url,
+                        textInputAction: TextInputAction.next,
+                        prefix: const Padding(
+                          padding: EdgeInsets.all(4),
+                          child: ShadImage.square(size: 16, LucideIcons.link),
+                        ),
+                        decoration: _decoration,
+                        validator: (p0) {
+                          if (p0.isEmpty) {
+                            return 'auth.server.error.required'.tr();
+                          }
 
-                  if (p0.isNotEmpty) {
-                    final uri = Uri.tryParse(p0);
-                    if (uri == null || uri.scheme.isEmpty) {
-                      return 'auth.server.error.invalid'.tr();
-                    }
-                  }
-                  return null;
-                },
-              ),
-              const Gap(16),
-              ShadInputFormField(
-                id: 'email',
-                placeholder: const Text('auth.email.placeholder').tr(),
-                autofillHints: const [AutofillHints.email],
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                prefix: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: ShadImage.square(size: 16, LucideIcons.mail),
-                ),
-                decoration: _decoration,
-                validator: (p0) {
-                  if (p0.isEmpty) {
-                    return 'auth.email.error.required'.tr();
-                  }
-                  if (!p0.contains('@')) {
-                    return 'auth.email.error.invalid'.tr();
-                  }
-                  return null;
-                },
-              ),
-              const Gap(16),
-              ShadInputFormField(
-                id: 'password',
-                placeholder: const Text('auth.password.placeholder').tr(),
-                autofillHints: const [AutofillHints.password],
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: obscure,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) => _onSubmit(),
-                prefix: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: ShadImage.square(size: 16, LucideIcons.lock),
-                ),
-                decoration: _decoration,
-                suffix: ShadButton(
-                  width: 24,
-                  height: 24,
-                  padding: EdgeInsets.zero,
-                  decoration: const ShadDecoration(
-                    secondaryBorder: ShadBorder.none,
-                    secondaryFocusedBorder: ShadBorder.none,
+                          if (p0.isNotEmpty) {
+                            final uri = Uri.tryParse(p0);
+                            if (uri == null || uri.scheme.isEmpty) {
+                              return 'auth.server.error.invalid'.tr();
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      const Gap(16),
+                      ShadInputFormField(
+                        id: 'email',
+                        placeholder: const Text('auth.email.placeholder').tr(),
+                        autofillHints: const [AutofillHints.email],
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        prefix: const Padding(
+                          padding: EdgeInsets.all(4),
+                          child: ShadImage.square(size: 16, LucideIcons.mail),
+                        ),
+                        decoration: _decoration,
+                        validator: (p0) {
+                          if (p0.isEmpty) {
+                            return 'auth.email.error.required'.tr();
+                          }
+                          final emailRegex =
+                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                          if (!emailRegex.hasMatch(p0)) {
+                            return 'auth.email.error.invalid'.tr();
+                          }
+                          return null;
+                        },
+                      ),
+                      const Gap(16),
+                      ShadInputFormField(
+                        id: 'password',
+                        placeholder:
+                            const Text('auth.password.placeholder').tr(),
+                        autofillHints: const [AutofillHints.password],
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: obscure,
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (_) => _onSubmit(),
+                        prefix: const Padding(
+                          padding: EdgeInsets.all(4),
+                          child: ShadImage.square(size: 16, LucideIcons.lock),
+                        ),
+                        decoration: _decoration,
+                        suffix: ShadButton(
+                          width: 24,
+                          height: 24,
+                          padding: EdgeInsets.zero,
+                          decoration: const ShadDecoration(
+                            secondaryBorder: ShadBorder.none,
+                            secondaryFocusedBorder: ShadBorder.none,
+                          ),
+                          icon: ShadImage.square(
+                            size: 16,
+                            obscure ? LucideIcons.eyeOff : LucideIcons.eye,
+                          ),
+                          onPressed: () {
+                            setState(() => obscure = !obscure);
+                          },
+                        ),
+                        validator: (p0) {
+                          if (p0.isEmpty) {
+                            return 'auth.password.error.required'.tr();
+                          }
+                          return null;
+                        },
+                      ),
+                      const Gap(36),
+                      ShadButton(
+                        onPressed: _onSubmit,
+                        child: const Text('auth.action.sign_in').tr(),
+                      ),
+                    ],
                   ),
-                  icon: ShadImage.square(
-                    size: 16,
-                    obscure ? LucideIcons.eyeOff : LucideIcons.eye,
-                  ),
-                  onPressed: () {
-                    setState(() => obscure = !obscure);
-                  },
                 ),
-                validator: (p0) {
-                  if (p0.isEmpty) {
-                    return 'auth.password.error.required'.tr();
-                  }
-                  return null;
-                },
               ),
-              const Gap(36),
-              ShadButton(
-                onPressed: _onSubmit,
-                child: const Text('auth.action.sign_in').tr(),
-              ),
-            ],
+            ),
           ),
         ),
       ),

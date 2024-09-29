@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:paperless/exports.dart' show CodegenLoader;
+import 'package:paperless/exports.dart' show CodegenLoader, DismissFocusOverlay;
 
 /// Dependency Injection
 class DI extends StatelessWidget {
@@ -22,7 +22,12 @@ class DI extends StatelessWidget {
       assetLoader: const CodegenLoader(),
       fallbackLocale: const Locale('en'),
       startLocale: const Locale('en'),
-      child: Builder(builder: builder),
+      child: Builder(
+        builder: (context) {
+          final app = builder(context);
+          return DismissFocusOverlay(child: app);
+        },
+      ),
     );
   }
 }

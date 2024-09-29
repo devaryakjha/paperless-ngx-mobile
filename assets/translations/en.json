@@ -4,7 +4,7 @@
     "title": "Add Paperless account",
     "server": {
       "label": "Server",
-      "placeholder": "Enter your paperless server url",
+      "placeholder": "Enter your server url",
       "description": "This is your paperless server url",
       "error": {
         "required": "Server url is required",

@@ -20,7 +20,7 @@ class CodegenLoader extends AssetLoader {
       "title": "Add Paperless account",
       "server": {
         "label": "Server",
-        "placeholder": "Enter your paperless server url",
+        "placeholder": "Enter your server url",
         "description": "This is your paperless server url",
         "error": {
           "required": "Server url is required",
@@ -36,7 +36,8 @@ class CodegenLoader extends AssetLoader {
       "password": {
         "label": "Password",
         "placeholder": "Enter your password",
-        "description": "This is your paperless account password"
+        "description": "This is your paperless account password",
+        "error": {"required": "Password is required"}
       },
       "action": {
         "sign_in": "Sign in",
