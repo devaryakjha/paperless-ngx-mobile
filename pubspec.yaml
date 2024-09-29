@@ -7,6 +7,7 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  easy_localization: ^3.0.7
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -39,3 +40,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logos/
+    - assets/translations/
