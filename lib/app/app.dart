@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:paperless/exports.dart' show DI, darkTheme, lightTheme, router;
+import 'package:google_fonts/google_fonts.dart';
+import 'package:paperless/exports.dart' show DI, router;
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class Paperless extends StatefulWidget {
   const Paperless(
@@ -27,15 +29,26 @@ class _PaperlessState extends State<Paperless> {
   Widget build(BuildContext context) {
     return DI(
       builder: (context) {
-        return MaterialApp.router(
+        return ShadApp.router(
+          darkTheme: ShadThemeData(
+            colorScheme: const ShadZincColorScheme.dark(),
+            brightness: Brightness.dark,
+            textTheme: ShadTextTheme.fromGoogleFont(GoogleFonts.dmSans),
+          ),
+          themeMode: ThemeMode.dark,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           onGenerateTitle: (context) => context.tr('app_title'),
           debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          darkTheme: darkTheme,
           routerConfig: router,
+          materialThemeBuilder: (context, theme) {
+            return theme.copyWith(
+              appBarTheme: theme.appBarTheme.copyWith(
+                centerTitle: false,
+              ),
+            );
+          },
         );
       },
     );
