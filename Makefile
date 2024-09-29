@@ -5,5 +5,5 @@ gen-watch:
 	dart run build_runner watch --delete-conflicting-outputs
 
 gen-translatons:
-	dart run easy_localization:generate --source-dir ./assets/translations --output-dir ./lib/core/translations --output-file loader.g.dart
-	dart format ./lib/core/translations/loader.g.dart
+	dart run easy_localization:generate --source-dir ./assets/translations --output-dir ./lib/core/translations --output-file loader.dart
+	dart format ./lib/core/translations/loader.dart

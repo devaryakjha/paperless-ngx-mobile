@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:paperless/exports.dart' show DI, router;
+import 'package:paperless/exports.dart' show DI, darkTheme, lightTheme, router;
 
 class Paperless extends StatefulWidget {
   const Paperless(
@@ -33,6 +33,8 @@ class _PaperlessState extends State<Paperless> {
           locale: context.locale,
           onGenerateTitle: (context) => context.tr('app_title'),
           debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           routerConfig: router,
         );
       },

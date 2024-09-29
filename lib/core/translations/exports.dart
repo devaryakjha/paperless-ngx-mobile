@@ -1,1 +1,1 @@
-export 'loader.g.dart';
+export 'loader.dart';
