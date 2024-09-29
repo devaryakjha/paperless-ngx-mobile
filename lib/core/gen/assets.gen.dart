@@ -36,10 +36,21 @@ class $AssetsLogosGen {
       [adaptiveLogo, paperlessGreen, paperlessMonochromatic, paperlessTinted];
 }
 
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
+
+  /// File path: assets/translations/en.json
+  String get en => 'assets/translations/en.json';
+
+  /// List of all assets
+  List<String> get values => [en];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsLogosGen logos = $AssetsLogosGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
 class AssetGenImage {

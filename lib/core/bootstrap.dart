@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 
 Future<void> bootstrap(
@@ -25,4 +26,6 @@ Future<void> bootstrap(
 
 Future<void> initServices() async {
   // Initialize the services. like Firebase, api,
+
+  await EasyLocalization.ensureInitialized();
 }

@@ -11,16 +11,18 @@ class DI extends StatelessWidget {
 
   final WidgetBuilder builder;
 
+  static final _supportedLocales =
+      CodegenLoader.mapLocales.keys.map(Locale.new).toList();
+
   @override
   Widget build(BuildContext context) {
     return EasyLocalization(
-      supportedLocales: const [Locale('en')],
+      supportedLocales: _supportedLocales,
       path: 'assets/translations',
       assetLoader: const CodegenLoader(),
       fallbackLocale: const Locale('en'),
-      child: Builder(
-        builder: builder,
-      ),
+      startLocale: const Locale('en'),
+      child: Builder(builder: builder),
     );
   }
 }
