@@ -14,6 +14,36 @@ class CodegenLoader extends AssetLoader {
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String, dynamic> en = {"app_title": "Paperless"};
+  static const Map<String, dynamic> en = {
+    "app_title": "Paperless",
+    "auth": {
+      "title": "Add Paperless account",
+      "server": {
+        "label": "Server",
+        "placeholder": "Enter your paperless server url",
+        "description": "This is your paperless server url",
+        "error": {
+          "required": "Server url is required",
+          "invalid": "Invalid server url"
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "description": "This is your paperless account email",
+        "error": {"required": "Email is required", "invalid": "Invalid email"}
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "description": "This is your paperless account password"
+      },
+      "action": {
+        "sign_in": "Sign in",
+        "sign_up": "Sign up",
+        "forgot_password": "Forgot password?"
+      }
+    }
+  };
   static const Map<String, Map<String, dynamic>> mapLocales = {"en": en};
 }

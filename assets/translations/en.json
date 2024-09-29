@@ -1,3 +1,37 @@
 {
-  "app_title": "Paperless"
+  "app_title": "Paperless",
+  "auth": {
+    "title": "Add Paperless account",
+    "server": {
+      "label": "Server",
+      "placeholder": "Enter your paperless server url",
+      "description": "This is your paperless server url",
+      "error": {
+        "required": "Server url is required",
+        "invalid": "Invalid server url"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email",
+      "description": "This is your paperless account email",
+      "error": {
+        "required": "Email is required",
+        "invalid": "Invalid email"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "description": "This is your paperless account password",
+      "error": {
+        "required": "Password is required"
+      }
+    },
+    "action": {
+      "sign_in": "Sign in",
+      "sign_up": "Sign up",
+      "forgot_password": "Forgot password?"
+    }
+  }
 }

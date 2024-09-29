@@ -44,9 +44,7 @@ class _PaperlessState extends State<Paperless> {
           routerConfig: router,
           materialThemeBuilder: (context, theme) {
             return theme.copyWith(
-              appBarTheme: theme.appBarTheme.copyWith(
-                centerTitle: false,
-              ),
+              appBarTheme: theme.appBarTheme.copyWith(centerTitle: false),
             );
           },
         );
