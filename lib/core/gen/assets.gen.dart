@@ -15,39 +15,25 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsLogosGen {
   const $AssetsLogosGen();
 
-  /// File path: assets/logos/paperless_logo_black.png
-  AssetGenImage get paperlessLogoBlackPng =>
-      const AssetGenImage('assets/logos/paperless_logo_black.png');
+  /// File path: assets/logos/adaptive_logo.svg
+  SvgGenImage get adaptiveLogo =>
+      const SvgGenImage('assets/logos/adaptive_logo.svg');
 
-  /// File path: assets/logos/paperless_logo_black.svg
-  SvgGenImage get paperlessLogoBlackSvg =>
-      const SvgGenImage('assets/logos/paperless_logo_black.svg');
+  /// File path: assets/logos/paperless_green.png
+  AssetGenImage get paperlessGreen =>
+      const AssetGenImage('assets/logos/paperless_green.png');
 
-  /// File path: assets/logos/paperless_logo_green.png
-  AssetGenImage get paperlessLogoGreenPng =>
-      const AssetGenImage('assets/logos/paperless_logo_green.png');
+  /// File path: assets/logos/paperless_monochromatic.png
+  AssetGenImage get paperlessMonochromatic =>
+      const AssetGenImage('assets/logos/paperless_monochromatic.png');
 
-  /// File path: assets/logos/paperless_logo_green.svg
-  SvgGenImage get paperlessLogoGreenSvg =>
-      const SvgGenImage('assets/logos/paperless_logo_green.svg');
-
-  /// File path: assets/logos/paperless_logo_white.png
-  AssetGenImage get paperlessLogoWhitePng =>
-      const AssetGenImage('assets/logos/paperless_logo_white.png');
-
-  /// File path: assets/logos/paperless_logo_white.svg
-  SvgGenImage get paperlessLogoWhiteSvg =>
-      const SvgGenImage('assets/logos/paperless_logo_white.svg');
+  /// File path: assets/logos/paperless_tinted.png
+  AssetGenImage get paperlessTinted =>
+      const AssetGenImage('assets/logos/paperless_tinted.png');
 
   /// List of all assets
-  List<dynamic> get values => [
-        paperlessLogoBlackPng,
-        paperlessLogoBlackSvg,
-        paperlessLogoGreenPng,
-        paperlessLogoGreenSvg,
-        paperlessLogoWhitePng,
-        paperlessLogoWhiteSvg
-      ];
+  List<dynamic> get values =>
+      [adaptiveLogo, paperlessGreen, paperlessMonochromatic, paperlessTinted];
 }
 
 class Assets {

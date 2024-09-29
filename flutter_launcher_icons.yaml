@@ -1,0 +1,18 @@
+# flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  image_path: "assets/logos/paperless_green.png"
+
+  android: "ic_launcher"
+  image_path_android: "assets/logos/paperless_green.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/logos/paperless_green.png"
+  adaptive_icon_monochrome: "assets/logos/paperless_monochromatic.png"
+
+  ios: true
+  image_path_ios: "assets/logos/paperless_green.png"
+  remove_alpha_channel_ios: true
+  image_path_ios_dark_transparent: "assets/logos/paperless_tinted.png"
+  image_path_ios_tinted_grayscale: "assets/logos/paperless_tinted.png"
+  desaturate_tinted_to_grayscale_ios: true
+  remove_alpha_ios: true
