@@ -27,11 +27,14 @@ class CodegenLoader extends AssetLoader {
           "invalid": "Invalid server url"
         }
       },
-      "email": {
-        "label": "Email",
-        "placeholder": "Enter your email",
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter your username",
         "description": "This is your paperless account email",
-        "error": {"required": "Email is required", "invalid": "Invalid email"}
+        "error": {
+          "required": "Username is required",
+          "invalid": "Invalid username"
+        }
       },
       "password": {
         "label": "Password",

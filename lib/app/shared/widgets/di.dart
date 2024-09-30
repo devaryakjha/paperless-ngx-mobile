@@ -1,6 +1,14 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:paperless/exports.dart' show CodegenLoader, DismissFocusOverlay;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paperless/exports.dart'
+    show
+        AuthCubit,
+        CodegenLoader,
+        ConnectivityChecker,
+        ConnectivityCheckerImpl,
+        DismissFocusOverlay;
 
 /// Dependency Injection
 class DI extends StatelessWidget {
@@ -25,7 +33,16 @@ class DI extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final app = builder(context);
-          return DismissFocusOverlay(child: app);
+          return DismissFocusOverlay(
+            child: RepositoryProvider<ConnectivityChecker>(
+              create: (context) => ConnectivityCheckerImpl(Connectivity()),
+              child: BlocProvider(
+                create: (context) =>
+                    AuthCubit(context.read<ConnectivityChecker>()),
+                child: app,
+              ),
+            ),
+          );
         },
       ),
     );

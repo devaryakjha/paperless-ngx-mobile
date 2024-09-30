@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:paperless/exports.dart' show PaperlessLogo, ThemeExtension;
+import 'package:paperless/exports.dart'
+    show AuthCubit, AuthFormData, PaperlessLogo, ThemeExtension;
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 const _decoration = ShadDecoration(
@@ -24,12 +24,14 @@ class _AuthPageState extends State<AuthPage> {
 
   void _onSubmit() {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      log('Form data: ${_formKey.currentState?.value}');
+      final data = Map<String, dynamic>.from(_formKey.currentState!.value);
+      context.read<AuthCubit>().signIn(AuthFormData.fromJson(data));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final loading = context.select((AuthCubit c) => c.state.stage.isLoading);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -59,7 +61,7 @@ class _AuthPageState extends State<AuthPage> {
                       ).tr(),
                       const Gap(36),
                       ShadInputFormField(
-                        id: 'server',
+                        id: 'server_url',
                         autofocus: true,
                         placeholder: const Text('auth.server.placeholder').tr(),
                         autofillHints: const [AutofillHints.url],
@@ -86,24 +88,20 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                       const Gap(16),
                       ShadInputFormField(
-                        id: 'email',
-                        placeholder: const Text('auth.email.placeholder').tr(),
-                        autofillHints: const [AutofillHints.email],
-                        keyboardType: TextInputType.emailAddress,
+                        id: 'username',
+                        placeholder:
+                            const Text('auth.username.placeholder').tr(),
+                        autofillHints: const [AutofillHints.username],
+                        keyboardType: TextInputType.name,
                         textInputAction: TextInputAction.next,
                         prefix: const Padding(
                           padding: EdgeInsets.all(4),
-                          child: ShadImage.square(size: 16, LucideIcons.mail),
+                          child: ShadImage.square(size: 16, LucideIcons.user),
                         ),
                         decoration: _decoration,
                         validator: (p0) {
                           if (p0.isEmpty) {
-                            return 'auth.email.error.required'.tr();
-                          }
-                          final emailRegex =
-                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                          if (!emailRegex.hasMatch(p0)) {
-                            return 'auth.email.error.invalid'.tr();
+                            return 'auth.username.error.required'.tr();
                           }
                           return null;
                         },
@@ -149,7 +147,15 @@ class _AuthPageState extends State<AuthPage> {
                       const Gap(36),
                       ShadButton(
                         onPressed: _onSubmit,
-                        child: const Text('auth.action.sign_in').tr(),
+                        child: !loading
+                            ? const Text('auth.action.sign_in').tr()
+                            : const SizedBox.square(
+                                dimension: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                  strokeWidth: 2,
+                                ),
+                              ),
                       ),
                     ],
                   ),

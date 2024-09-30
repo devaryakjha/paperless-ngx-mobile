@@ -22,7 +22,9 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^1.2.2
+  hydrated_bloc: ^9.1.5
   json_annotation: ^4.9.0
+  path_provider: ^2.1.4
   shadcn_ui: ^0.9.8
 
 dev_dependencies:
