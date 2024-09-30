@@ -43,6 +43,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       body: ShadForm(
         key: _formKey,
+        enabled: !loading,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: AutofillGroup(

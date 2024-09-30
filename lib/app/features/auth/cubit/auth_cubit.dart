@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:chopper/chopper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:paperless/exports.dart' show AuthFormData, ConnectivityChecker;
+import 'package:paperless/exports.dart'
+    show AuthFormData, AuthService, ConnectivityChecker;
 
 part 'auth_cubit.g.dart';
 part 'auth_state.dart';
@@ -10,6 +15,8 @@ class AuthCubit extends HydratedCubit<AuthState> {
   AuthCubit(this.connectivityChecker) : super(const AuthState());
 
   final ConnectivityChecker connectivityChecker;
+  late AuthService authService;
+  late ChopperClient chopperClient;
 
   Future<void> signIn(AuthFormData data) async {
     try {
@@ -22,11 +29,35 @@ class AuthCubit extends HydratedCubit<AuthState> {
         return;
       }
 
-      // TODO: Use api chopper service
-      emit(state.copyWith(stage: AuthStage.success));
+      chopperClient = ChopperClient(
+        baseUrl: Uri.parse('${data.serverUrl}/api'),
+        services: [AuthService.create()],
+      );
+
+      authService = chopperClient.getService<AuthService>();
+
+      final response = await authService.signIn(data.toJson());
+      final token = (jsonDecode(response.bodyString) as Map)['token'] as String;
+
+      emit(state.copyWith(stage: AuthStage.success, token: token));
+
+      // TODO: save the credentials to the secure storage
     } catch (e) {
+      log(e.toString());
       emit(state.copyWith(stage: AuthStage.failure));
     }
+  }
+
+  void restoreSession() {
+    final serverUrl = state.serverUrl;
+    if (serverUrl == null) return;
+
+    chopperClient = ChopperClient(
+      baseUrl: Uri.parse('$serverUrl/api'),
+      services: [AuthService.create()],
+    );
+
+    authService = chopperClient.getService<AuthService>();
   }
 
   @override

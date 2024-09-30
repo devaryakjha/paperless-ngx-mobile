@@ -14,7 +14,6 @@ AuthFormData _$AuthFormDataFromJson(Map<String, dynamic> json) => AuthFormData(
 
 Map<String, dynamic> _$AuthFormDataToJson(AuthFormData instance) =>
     <String, dynamic>{
-      'server_url': instance.serverUrl,
       'username': instance.username,
       'password': instance.password,
     };

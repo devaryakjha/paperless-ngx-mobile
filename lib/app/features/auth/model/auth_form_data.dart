@@ -14,11 +14,13 @@ final class AuthFormData extends Equatable {
   factory AuthFormData.fromJson(Map<String, dynamic> json) =>
       _$AuthFormDataFromJson(json);
 
+  @JsonKey(includeToJson: false)
   final String serverUrl;
   final String username;
   final String password;
 
-  Map<String, dynamic> toJson() => _$AuthFormDataToJson(this);
+  Map<String, String> toJson() =>
+      Map<String, String>.from(_$AuthFormDataToJson(this));
 
   @override
   List<Object?> get props => [serverUrl, username, password];

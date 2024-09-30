@@ -16,4 +16,17 @@ final class _$AuthService extends AuthService {
 
   @override
   final Type definitionType = AuthService;
+
+  @override
+  Future<Response<dynamic>> signIn(Map<String, String> data) {
+    final Uri $url = Uri.parse('/token/');
+    final $body = data;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
 }
