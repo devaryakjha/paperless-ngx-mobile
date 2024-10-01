@@ -5,47 +5,33 @@ part of 'auth_cubit.dart';
 final class AuthState extends Equatable {
   const AuthState({
     this.stage = AuthStage.initial,
-    this.serverUrl,
-    this.token,
-    this.user,
+    this.session,
   });
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final AuthStage stage;
+  final Session? session;
 
   factory AuthState.fromJson(Map<String, dynamic> json) =>
       _$AuthStateFromJson(json);
 
-  final AuthStage stage;
-  final String? serverUrl;
-  final String? token;
-  final UserModel? user;
-
   Map<String, dynamic> toJson() => _$AuthStateToJson(this);
 
   @override
-  List<Object?> get props => [stage, serverUrl, token];
-
-  AuthState copyWith({
-    AuthStage? stage,
-    String? serverUrl,
-    String? token,
-    UserModel? user,
-  }) {
-    return AuthState(
-      stage: stage ?? this.stage,
-      serverUrl: serverUrl ?? this.serverUrl,
-      token: token ?? this.token,
-      user: user ?? this.user,
-    );
-  }
+  List<Object?> get props => [stage, session];
 }
 
-@JsonEnum()
 enum AuthStage {
   initial,
   loading,
+  serverValid,
+  serverInvalid,
   success,
   failure;
 
-  bool get isLoading => this == AuthStage.loading;
-  bool get isSuccess => this == AuthStage.success;
-  bool get isFailure => this == AuthStage.failure;
+  bool get isLoading => this == loading;
+  bool get isServerValid => this == serverValid;
+  bool get isServerInvalid => this == serverInvalid;
+  bool get isSuccess => this == success;
+  bool get isFailure => this == failure;
 }
