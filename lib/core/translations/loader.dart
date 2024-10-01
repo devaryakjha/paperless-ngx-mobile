@@ -24,8 +24,8 @@ class CodegenLoader extends AssetLoader {
         "description": "This is your paperless server url",
         "error": {
           "required": "Server url is required",
-          "invalid": "Invalid server url"
-        }
+          "invalid": "Invalid server url",
+        },
       },
       "username": {
         "label": "Username",
@@ -33,21 +33,21 @@ class CodegenLoader extends AssetLoader {
         "description": "This is your paperless account email",
         "error": {
           "required": "Username is required",
-          "invalid": "Invalid username"
-        }
+          "invalid": "Invalid username",
+        },
       },
       "password": {
         "label": "Password",
         "placeholder": "Enter your password",
         "description": "This is your paperless account password",
-        "error": {"required": "Password is required"}
+        "error": {"required": "Password is required"},
       },
       "action": {
         "sign_in": "Sign in",
         "sign_up": "Sign up",
-        "forgot_password": "Forgot password?"
-      }
-    }
+        "forgot_password": "Forgot password?",
+      },
+    },
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"en": en};
 }

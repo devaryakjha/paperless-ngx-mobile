@@ -11,12 +11,16 @@ AuthState _$AuthStateFromJson(Map<String, dynamic> json) => AuthState(
           AuthStage.initial,
       serverUrl: json['server_url'] as String?,
       token: json['token'] as String?,
+      user: json['user'] == null
+          ? null
+          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AuthStateToJson(AuthState instance) => <String, dynamic>{
-      'stage': _$AuthStageEnumMap[instance.stage]!,
+      'stage': _$AuthStageEnumMap[instance.stage],
       'server_url': instance.serverUrl,
       'token': instance.token,
+      'user': instance.user?.toJson(),
     };
 
 const _$AuthStageEnumMap = {

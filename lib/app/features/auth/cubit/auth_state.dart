@@ -7,6 +7,7 @@ final class AuthState extends Equatable {
     this.stage = AuthStage.initial,
     this.serverUrl,
     this.token,
+    this.user,
   });
 
   factory AuthState.fromJson(Map<String, dynamic> json) =>
@@ -15,6 +16,7 @@ final class AuthState extends Equatable {
   final AuthStage stage;
   final String? serverUrl;
   final String? token;
+  final UserModel? user;
 
   Map<String, dynamic> toJson() => _$AuthStateToJson(this);
 
@@ -25,11 +27,13 @@ final class AuthState extends Equatable {
     AuthStage? stage,
     String? serverUrl,
     String? token,
+    UserModel? user,
   }) {
     return AuthState(
       stage: stage ?? this.stage,
       serverUrl: serverUrl ?? this.serverUrl,
       token: token ?? this.token,
+      user: user ?? this.user,
     );
   }
 }

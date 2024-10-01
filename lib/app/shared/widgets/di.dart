@@ -38,7 +38,8 @@ class DI extends StatelessWidget {
               create: (context) => ConnectivityCheckerImpl(Connectivity()),
               child: BlocProvider(
                 create: (context) =>
-                    AuthCubit(context.read<ConnectivityChecker>()),
+                    AuthCubit(context.read<ConnectivityChecker>())
+                      ..restoreSession(),
                 child: app,
               ),
             ),

@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:paperless/exports.dart'
-    show AuthFormData, AuthService, ConnectivityChecker;
+    show AuthFormData, AuthService, ConnectivityChecker, UserModel;
 
 part 'auth_cubit.g.dart';
 part 'auth_state.dart';
@@ -38,12 +37,20 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
       final response = await authService.signIn(data.toJson());
       final token = (jsonDecode(response.bodyString) as Map)['token'] as String;
+      final user =
+          (await authService.findUser(data.username, 'Token $token')).body;
 
-      emit(state.copyWith(stage: AuthStage.success, token: token));
+      emit(
+        state.copyWith(
+          stage: AuthStage.success,
+          token: token,
+          serverUrl: data.serverUrl,
+          user: user,
+        ),
+      );
 
-      // TODO: save the credentials to the secure storage
+      // TODO(Arya): save the credentials to the secure storage
     } catch (e) {
-      log(e.toString());
       emit(state.copyWith(stage: AuthStage.failure));
     }
   }

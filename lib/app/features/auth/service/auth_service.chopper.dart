@@ -29,4 +29,29 @@ final class _$AuthService extends AuthService {
     );
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<UserModel>> findUser(
+    String username,
+    String token,
+  ) {
+    final Uri $url = Uri.parse('/users/');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'username__iexact': username
+    };
+    final Map<String, String> $headers = {
+      'Authorization': token,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      headers: $headers,
+    );
+    return client.send<UserModel, UserModel>(
+      $request,
+      responseConverter: createResponse,
+    );
+  }
 }
