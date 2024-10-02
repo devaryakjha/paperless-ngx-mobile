@@ -4,9 +4,16 @@ import 'package:http/http.dart' as http;
 abstract interface class ConnectivityChecker {
   const ConnectivityChecker();
 
+  /// Returns `true` if the device is connected to a network, `false` otherwise.
   Future<bool> isConnected();
+
+  /// Returns a stream of booleans that emit `true`
+  /// when the device is connected to a network
   Stream<bool> connectivityChanges();
-  Future<bool> isPaperlessServerReachable(String serverUrl);
+
+  /// Returns `true` if the server at [serverUrl] is reachable,
+  /// `false` otherwise.
+  Future<bool> isServerReachable(Uri serverUrl);
 }
 
 final class ConnectivityCheckerImpl implements ConnectivityChecker {
@@ -19,20 +26,19 @@ final class ConnectivityCheckerImpl implements ConnectivityChecker {
   }
 
   @override
-  Future<bool> isConnected() async {
-    final result = await _connectivity.checkConnectivity();
-    return _hasValidConnection(result);
+  Future<bool> isConnected() async =>
+      _hasValidConnection(await _connectivity.checkConnectivity());
+
+  @override
+  Stream<bool> connectivityChanges() async* {
+    yield await isConnected();
+    yield* _connectivity.onConnectivityChanged.map(_hasValidConnection);
   }
 
   @override
-  Stream<bool> connectivityChanges() {
-    return _connectivity.onConnectivityChanged.map(_hasValidConnection);
-  }
-
-  @override
-  Future<bool> isPaperlessServerReachable(String serverUrl) async {
+  Future<bool> isServerReachable(Uri serverUrl) async {
     try {
-      final response = await http.get(Uri.parse('$serverUrl/api/'));
+      final response = await http.get(serverUrl);
       return response.statusCode == 200;
     } catch (_) {
       return false;

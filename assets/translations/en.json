@@ -8,7 +8,11 @@
       "description": "This is your paperless server url",
       "error": {
         "required": "Server url is required",
-        "invalid": "Invalid server url"
+        "invalid": "Invalid server url",
+        "unreachable": {
+          "title": "Server unreachable",
+          "message": "The server is unreachable, please check the url"
+        }
       }
     },
     "username": {
@@ -30,6 +34,7 @@
     },
     "action": {
       "sign_in": "Sign in",
+      "validate": "Validate",
       "sign_up": "Sign up",
       "forgot_password": "Forgot password?"
     }

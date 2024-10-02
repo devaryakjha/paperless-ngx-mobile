@@ -7,51 +7,43 @@ part 'auth_cubit.g.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends HydratedCubit<AuthState> {
-  AuthCubit(this.connectivityChecker) : super(const AuthState());
+  AuthCubit(this._connectivityChecker) : super(const AuthState());
 
-  final ConnectivityChecker connectivityChecker;
-  // late AuthService authService;
-  // late ChopperClient chopperClient;
+  final ConnectivityChecker _connectivityChecker;
 
-  // Future<void> signIn(AuthFormData data) async {
-  //   try {
-  //     emit(state.copyWith(stage: AuthStage.loading));
-  //     final isServerReachable =
-  //         await connectivityChecker.isPaperlessServerReachable(data.serverUrl);
+  Future<void> validateServer(String serverUrl) async {
+    final uri = Uri.parse('$serverUrl/api/');
+    if (hasAlreadyCheckedServer(serverUrl)) return;
+    emit(state.updateServerStatus(uri, ServerStatus.checking));
+    final isReachable = await _connectivityChecker.isServerReachable(uri);
+    final newState = state
+        .updateServerStatus(
+          uri,
+          isReachable ? ServerStatus.reachable : ServerStatus.unreachable,
+        )
+        .copyWith(stage: AuthStage.initial);
+    emit(newState);
+  }
 
-  //     if (!isServerReachable) {
-  //       emit(state.copyWith(stage: AuthStage.failure));
-  //       return;
-  //     }
+  bool hasAlreadyCheckedServer(String serverUrl) {
+    final status = getServerStatus(serverUrl);
+    return status != ServerStatus.initial;
+  }
 
-  //     chopperClient = ChopperClient(
-  //       baseUrl: Uri.parse('${data.serverUrl}/api'),
-  //       services: [AuthService.create()],
-  //     );
+  ServerStatus getServerStatus(String serverUrl) {
+    final uri = Uri.parse('$serverUrl/api/');
+    return state.serverStatus[uri] ?? ServerStatus.initial;
+  }
 
-  //     authService = chopperClient.getService<AuthService>();
+  bool isServerValid(String serverUrl) {
+    final status = getServerStatus(serverUrl);
+    return status == ServerStatus.reachable;
+  }
 
-  //     final response = await authService.signIn(data.toJson());
-  //     final token = (jsonDecode(response.bodyString) as Map)['token'] as String;
-  //     final user =
-  //         (await authService.findUser(data.username, 'Token $token')).body;
-
-  //     emit(
-  //       state.copyWith(
-  //         stage: AuthStage.success,
-  //         token: token,
-  //         serverUrl: data.serverUrl,
-  //         user: user,
-  //       ),
-  //     );
-
-  //     // TODO(Arya): save the credentials to the secure storage
-  //   } catch (e) {
-  //     emit(state.copyWith(stage: AuthStage.failure));
-  //   }
-  // }
-
-  void restoreSession() {}
+  bool isServerChecking(String serverUrl) {
+    final status = getServerStatus(serverUrl);
+    return status == ServerStatus.checking;
+  }
 
   @override
   AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
