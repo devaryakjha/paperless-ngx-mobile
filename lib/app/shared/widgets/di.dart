@@ -46,8 +46,12 @@ class _DIState extends State<DI> {
       child: Builder(
         builder: (context) {
           return DismissFocusOverlay(
-            child: BlocProvider.value(
-              value: _authCubit,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: _authCubit,
+                ),
+              ],
               child: widget.builder(context),
             ),
           );

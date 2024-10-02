@@ -1,10 +1,25 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'documents_cubit.dart';
 
-sealed class DocumentsState extends Equatable {
-  const DocumentsState();
+final class DocumentsState extends Equatable {
+  const DocumentsState({
+    this.document = const [],
+    this.fetchState = FetchState.initial,
+  });
+
+  final FetchState fetchState;
+  final List<Document> document;
 
   @override
-  List<Object> get props => [];
-}
+  List<Object> get props => [document, fetchState];
 
-final class DocumentsInitial extends DocumentsState {}
+  DocumentsState copyWith({
+    FetchState? fetchState,
+    List<Document>? document,
+  }) {
+    return DocumentsState(
+      fetchState: fetchState ?? this.fetchState,
+      document: document ?? this.document,
+    );
+  }
+}

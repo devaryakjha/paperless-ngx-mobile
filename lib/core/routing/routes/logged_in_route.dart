@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:paperless/app/features/documents/view/document_page.dart';
 import 'package:paperless/exports.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -23,25 +23,24 @@ final class LoggedInRoute extends StatefulShellRouteData {
   const LoggedInRoute();
 
   @override
-  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    final sessionManager = getIt<SessionManager>();
-    if (sessionManager.activeSession == null) {
-      return Routes.auth.location;
-    }
-    return null;
-  }
-
-  @override
   Widget builder(
     BuildContext context,
     GoRouterState state,
     StatefulNavigationShell navigationShell,
   ) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: navigationShell.currentIndex,
-        onDestinationSelected: navigationShell.goBranch,
+    return BlocProvider(
+      lazy: false,
+      create: (context) => DocumentsCubit()..getAll(),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: navigationShell,
+            bottomNavigationBar: BottomNavBar(
+              currentIndex: navigationShell.currentIndex,
+              onDestinationSelected: navigationShell.goBranch,
+            ),
+          );
+        },
       ),
     );
   }
@@ -76,15 +75,15 @@ class BottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             BottomNavDest(
-              label: 'Home',
-              icon: LucideIcons.house,
-              onPressed: () => onDestinationSelected(0),
-              selected: currentIndex == 0,
-            ),
-            BottomNavDest(
               label: 'Documents',
               icon: LucideIcons.fileText,
               onPressed: () => onDestinationSelected(1),
+              selected: currentIndex == 0,
+            ),
+            BottomNavDest(
+              label: 'Home',
+              icon: LucideIcons.house,
+              onPressed: () => onDestinationSelected(0),
               selected: currentIndex == 1,
             ),
             BottomNavDest(
