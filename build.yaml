@@ -6,3 +6,6 @@ targets:
           create_to_json: true
           explicit_to_json: true
           field_rename: "snake"
+      chopper_generator:
+        options:
+          build_extensions: { ".dart": [ ".chopper.g.dart" ] }
