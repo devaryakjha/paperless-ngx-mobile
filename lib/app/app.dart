@@ -46,11 +46,9 @@ class _PaperlessState extends State<Paperless> {
             return theme.copyWith(
               appBarTheme: theme.appBarTheme.copyWith(centerTitle: false),
               navigationBarTheme: theme.navigationBarTheme.copyWith(
-                height: 48,
                 backgroundColor: theme.colorScheme.secondary,
                 indicatorColor: Colors.transparent,
                 surfaceTintColor: theme.colorScheme.surface,
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
               ),
             );
           },
