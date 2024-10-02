@@ -31,6 +31,7 @@ class _DIState extends State<DI> {
       getIt(),
       getIt(),
       getIt(),
+      getIt(),
     )..init();
   }
 

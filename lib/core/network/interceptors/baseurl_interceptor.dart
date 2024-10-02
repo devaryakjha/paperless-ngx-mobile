@@ -13,7 +13,7 @@ final class BaseurlInterceptor implements Interceptor {
     final sessionManager = getIt<SessionManager>();
     final request = sessionManager.activeSession != null
         ? chain.request.copyWith(
-            baseUri: sessionManager.activeSession!.serverUri,
+            baseUri: cleanupServerUrl(sessionManager.activeSession!.serverUri),
           )
         : chain.request;
 

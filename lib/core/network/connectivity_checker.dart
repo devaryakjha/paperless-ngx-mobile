@@ -46,21 +46,23 @@ final class ConnectivityCheckerImpl implements ConnectivityChecker {
       return false;
     }
   }
+}
 
-  Uri cleanupServerUrl(Uri serverUrl) {
-    if (serverUrl.scheme.isEmpty) {
-      return serverUrl.replace(scheme: 'https');
-    }
-    // if the url isn't ending with / add it
-    if (!serverUrl.path.endsWith('/')) {
-      return serverUrl.replace(path: '${serverUrl.path}/');
-    }
-
-    // if the url isn't ending with /api/ add it
-    if (!serverUrl.path.endsWith('/api/')) {
-      return serverUrl.replace(path: '${serverUrl.path}/api/');
-    }
-
-    return serverUrl;
+Uri cleanupServerUrl(Uri serverUrl) {
+  var newUri = serverUrl;
+  if (newUri.scheme.isEmpty) {
+    newUri = newUri.replace(scheme: 'https');
   }
+
+  // if the url isn't ending with /api/ add it
+  if (!newUri.path.endsWith('/api/')) {
+    newUri = newUri.replace(path: '${newUri.path}/api/');
+  }
+
+  // if the url isn't ending with / add it
+  if (!newUri.path.endsWith('/')) {
+    newUri = newUri.replace(path: '${newUri.path}/');
+  }
+
+  return newUri;
 }

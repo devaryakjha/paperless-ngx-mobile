@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:paperless/core/storage/secure_storage.dart';
 import 'package:paperless/exports.dart';
@@ -34,9 +35,20 @@ final class SessionManager {
     return SessionManager(secureStorage, sessions, currentSession);
   }
 
-  Future<void> addSession(Session session) async {
+  Future<void> addSession(Session session, {bool setAsactive = false}) async {
     _sessions.add(session);
     await _saveSessions();
+    if (setAsactive) {
+      await setActiveSession(session);
+    }
+  }
+
+  Future<void> updateSession(Session session) async {
+    final index = _sessions.indexWhere((s) => s.uniqueId == session.uniqueId);
+    if (index != -1) {
+      _sessions[index] = session;
+      await _saveSessions();
+    }
   }
 
   Future<void> setActiveSession(Session session) async {
@@ -54,7 +66,8 @@ final class SessionManager {
 
   List<Session> get sessions => _sessions;
 
-  List<UserModel> get users => _sessions.map((s) => s.user).toList();
+  List<UserModel> get users =>
+      _sessions.map((s) => s.user).whereNotNull().toList();
 
   UserModel? get currentUser => activeSession?.user;
 
