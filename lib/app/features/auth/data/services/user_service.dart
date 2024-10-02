@@ -22,7 +22,7 @@ abstract class UserService extends ChopperService {
 }
 
 Response<UserModel> _createReponse(Response<dynamic> res) {
-  final json = jsonDecode(res.body as String) as Map<String, dynamic>;
+  final json = jsonDecode(res.bodyString) as Map<String, dynamic>;
   final results = json['results'] as List;
   if (results.isEmpty) {
     throw Exception('User not found');
