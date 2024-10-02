@@ -6,10 +6,11 @@ import 'package:paperless/exports.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._sessionManager, this._connectivityChecker)
+  AuthCubit(this._sessionManager, this._connectivityChecker, this._authService)
       : super(const AuthState());
 
   final SessionManager _sessionManager;
+  final AuthService _authService;
   final ConnectivityChecker _connectivityChecker;
 
   Future<void> init() async {
@@ -26,7 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  void resetStatus() => emit(state.copyWith(status: AuthStatus.initial));
+  void resetStatus() => emit(state.copyWith(serverValidated: false));
 
   Future<void> checkServer(String server, [VoidCallback? onError]) async {
     emit(state.copyWith(status: AuthStatus.checkingServer));
@@ -34,10 +35,10 @@ class AuthCubit extends Cubit<AuthState> {
     final isValid = await _connectivityChecker.isServerReachable(serverUri);
     if (!isValid) {
       onError?.call();
-      emit(state.copyWith(status: AuthStatus.error));
+      emit(state.copyWith(status: AuthStatus.initial, serverValidated: false));
       return;
     }
-    emit(state.copyWith(status: AuthStatus.serverValid));
+    emit(state.copyWith(status: AuthStatus.initial, serverValidated: true));
   }
 
   Future<void> signIn(Map<String, String> payload) async {

@@ -6,24 +6,28 @@ class AuthState extends Equatable {
     this.sessions = const [],
     this.activeSession,
     this.status = AuthStatus.initial,
+    this.serverValidated = false,
   });
 
   final List<Session> sessions;
   final Session? activeSession;
   final AuthStatus status;
+  final bool serverValidated;
 
   @override
-  List<Object?> get props => [sessions, activeSession, status];
+  List<Object?> get props => [sessions, activeSession, status, serverValidated];
 
   AuthState copyWith({
     List<Session>? sessions,
     Session? activeSession,
     AuthStatus? status,
+    bool? serverValidated,
   }) {
     return AuthState(
       sessions: sessions ?? this.sessions,
       activeSession: activeSession ?? this.activeSession,
       status: status ?? this.status,
+      serverValidated: serverValidated ?? this.serverValidated,
     );
   }
 }
@@ -31,16 +35,9 @@ class AuthState extends Equatable {
 enum AuthStatus {
   initial,
   checkingServer,
-  serverValid,
-  serverInvalid,
   authenticating,
   authenticated,
   error;
 
   bool get showLoading => this == checkingServer || this == authenticating;
-  bool get serverValidated => ![
-        AuthStatus.serverInvalid,
-        AuthStatus.initial,
-        AuthStatus.checkingServer,
-      ].contains(this);
 }

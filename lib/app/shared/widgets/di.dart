@@ -4,14 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless/exports.dart'
-    show
-        AuthCubit,
-        CodegenLoader,
-        ConnectivityChecker,
-        ConnectivityCheckerImpl,
-        DismissFocusOverlay,
-        SessionManager,
-        getIt;
+    show AuthCubit, CodegenLoader, DismissFocusOverlay, getIt;
 
 /// Dependency Injection
 class DI extends StatefulWidget {
@@ -35,8 +28,9 @@ class _DIState extends State<DI> {
   void initState() {
     super.initState();
     _authCubit = AuthCubit(
-      getIt<SessionManager>(),
-      getIt<ConnectivityChecker>(),
+      getIt(),
+      getIt(),
+      getIt(),
     )..init();
   }
 
