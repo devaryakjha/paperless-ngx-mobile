@@ -12,8 +12,36 @@ part 'logged_in_route.g.dart';
   branches: [
     TypedStatefulShellBranch(
       routes: [
+        TypedGoRoute<HomePageData>(
+          path: '/${Routes.home}',
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
         TypedGoRoute<DocumentsPageData>(
           path: '/${Routes.documents}',
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<ScannerPageData>(
+          path: '/${Routes.scanner}',
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<LabelsPageData>(
+          path: '/${Routes.labels}',
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<SettingsPageData>(
+          path: '/${Routes.settings}',
         ),
       ],
     ),
@@ -53,6 +81,38 @@ final class DocumentsPageData extends GoRouteData {
   }
 }
 
+final class HomePageData extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // return HomePage(key: state.pageKey);
+    return const Placeholder();
+  }
+}
+
+final class ScannerPageData extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // return ScannerPage(key: state.pageKey);
+    return const Placeholder();
+  }
+}
+
+final class LabelsPageData extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // return LabelsPage(key: state.pageKey);
+    return const Placeholder();
+  }
+}
+
+final class SettingsPageData extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // return SettingsPage(key: state.pageKey);
+    return const Placeholder();
+  }
+}
+
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
     required this.currentIndex,
@@ -75,15 +135,15 @@ class BottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             BottomNavDest(
-              label: 'Documents',
-              icon: LucideIcons.fileText,
-              onPressed: () => onDestinationSelected(1),
-              selected: currentIndex == 0,
-            ),
-            BottomNavDest(
               label: 'Home',
               icon: LucideIcons.house,
               onPressed: () => onDestinationSelected(0),
+              selected: currentIndex == 0,
+            ),
+            BottomNavDest(
+              label: 'Documents',
+              icon: LucideIcons.fileText,
+              onPressed: () => onDestinationSelected(1),
               selected: currentIndex == 1,
             ),
             BottomNavDest(
