@@ -2,15 +2,22 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:injectable/injectable.dart';
+import 'package:paperless/core/bootstrap.config.dart';
 import 'package:path_provider/path_provider.dart';
 
+final getIt = GetIt.instance;
+
+@injectableInit
 Future<void> bootstrap(
   Widget Function(WidgetsBinding widgetsBinding) builder,
 ) async {
   await runZonedGuarded(
     () async {
+      getIt.init();
       // Initialize the Flutter binding.
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized()
         ..deferFirstFrame();

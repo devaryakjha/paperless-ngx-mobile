@@ -1,3 +1,4 @@
+export 'auth/exports.dart';
 export 'bootstrap.dart';
 export 'gen/exports.dart';
 export 'network/exports.dart';
