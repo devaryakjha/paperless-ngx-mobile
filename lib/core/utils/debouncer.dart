@@ -1,4 +1,4 @@
-import 'dart:async' show FutureOr, Timer;
+import 'dart:async' show Timer;
 
 final class Debouncer {
   Debouncer(this.duration);
