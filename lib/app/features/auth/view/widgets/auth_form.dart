@@ -54,7 +54,8 @@ class _AuthFormState extends State<AuthForm> {
   @override
   Widget build(BuildContext context) {
     final (authStatus, isServerValid) = context.select(
-        (AuthCubit cubit) => (cubit.state.status, cubit.state.serverValidated));
+      (AuthCubit cubit) => (cubit.state.status, cubit.state.serverValidated),
+    );
 
     final loading = authStatus.showLoading;
     return Padding(
@@ -124,7 +125,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                   ShadButton(
-                    onPressed: loading ? null : _next,
+                    onPressed: _next,
                     child: loading
                         ? SizedBox.square(
                             dimension: 16,

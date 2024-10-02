@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:paperless/core/network/interceptors/authorization_interceptor.dart';
 import 'package:paperless/core/network/interceptors/baseurl_interceptor.dart';
 
 @module
@@ -10,6 +11,7 @@ abstract class ChopperModule {
       converter: const JsonConverter(),
       interceptors: [
         BaseurlInterceptor(),
+        AuthorizationInterceptor(),
       ],
     );
   }

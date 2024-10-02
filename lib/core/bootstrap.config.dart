@@ -13,6 +13,8 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:paperless/app/features/auth/data/services/auth_service.dart'
     as _i82;
+import 'package:paperless/app/features/auth/data/services/user_service.dart'
+    as _i573;
 import 'package:paperless/core/auth/session_manager.dart' as _i991;
 import 'package:paperless/core/network/client.dart' as _i421;
 import 'package:paperless/core/network/connectivity_checker.dart' as _i330;
@@ -42,6 +44,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i82.AuthService>(
         () => _i82.AuthService.create(gh<_i31.ChopperClient>()));
+    gh.singleton<_i573.UserService>(
+        () => _i573.UserService.create(gh<_i31.ChopperClient>()));
     gh.singleton<_i330.ConnectivityChecker>(
         () => _i330.ConnectivityCheckerImpl());
     return this;

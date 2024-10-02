@@ -7,17 +7,22 @@ part 'session.g.dart';
 @JsonSerializable()
 final class Session extends Equatable {
   const Session({
-    required this.user,
     required this.token,
     required this.serverUri,
+    required this.username,
+    required this.password,
+    this.user,
   });
 
   factory Session.fromJson(Map<String, dynamic> json) =>
       _$SessionFromJson(json);
 
-  final UserModel user;
+  final UserModel? user;
   final String token;
+  @JsonKey(name: 'server')
   final Uri serverUri;
+  final String username;
+  final String password;
 
   Map<String, dynamic> toJson() => _$SessionToJson(this);
 
@@ -28,13 +33,17 @@ final class Session extends Equatable {
     UserModel? currentUser,
     String? token,
     Uri? serverUri,
+    String? username,
+    String? password,
   }) {
     return Session(
       user: currentUser ?? user,
       token: token ?? this.token,
       serverUri: serverUri ?? this.serverUri,
+      username: username ?? this.username,
+      password: password ?? this.password,
     );
   }
 
-  String get uniqueId => '${user.id}@$serverUri';
+  String get uniqueId => '$username@$serverUri';
 }
