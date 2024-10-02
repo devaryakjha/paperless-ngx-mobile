@@ -2,17 +2,18 @@
   "app_title": "Paperless",
   "auth": {
     "title": "Add Paperless account",
+    "error": {
+      "server_unreachable": {
+        "title": "Server unreachable",
+        "description": "The server is unreachable, make sure you have internet connection and the server url is correct"
+      }
+    },
     "server": {
       "label": "Server",
       "placeholder": "Enter your server url",
       "description": "This is your paperless server url",
       "error": {
-        "required": "Server url is required",
-        "invalid": "Invalid server url",
-        "unreachable": {
-          "title": "Server unreachable",
-          "message": "The server is unreachable, please check the url"
-        }
+        "required": "Server url is required"
       }
     },
     "username": {
@@ -20,8 +21,7 @@
       "placeholder": "Enter your username",
       "description": "This is your paperless account email",
       "error": {
-        "required": "Username is required",
-        "invalid": "Invalid username"
+        "required": "Username is required"
       }
     },
     "password": {
@@ -34,7 +34,7 @@
     },
     "action": {
       "sign_in": "Sign in",
-      "validate": "Validate",
+      "validate": "Continue",
       "sign_up": "Sign up",
       "forgot_password": "Forgot password?"
     }

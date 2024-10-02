@@ -32,7 +32,15 @@ enum AuthStatus {
   initial,
   checkingServer,
   serverValid,
+  serverInvalid,
   authenticating,
   authenticated,
   error;
+
+  bool get showLoading => this == checkingServer || this == authenticating;
+  bool get serverValidated => ![
+        AuthStatus.serverInvalid,
+        AuthStatus.initial,
+        AuthStatus.checkingServer,
+      ].contains(this);
 }

@@ -11,4 +11,6 @@ extension ThemeExtension on BuildContext {
   Color get bgColor => colorScheme.background;
 
   ShadTextTheme get textTheme => shadTheme.textTheme;
+
+  ShadButtonTheme get primaryButtonTheme => shadTheme.primaryButtonTheme;
 }
