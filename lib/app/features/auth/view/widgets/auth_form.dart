@@ -81,8 +81,11 @@ class _AuthFormState extends State<AuthForm> {
       }
 
       final isUrlValid = _validateServerInput(serverUrl);
-      if (isUrlValid != null) return;
       final authCubit = context.read<AuthCubit>();
+      if (isUrlValid != null) {
+        recheck(authCubit, ServerStatus.initial);
+        return;
+      }
       recheck(authCubit, ServerStatus.checking);
       await authCubit.validateServer(serverUrl);
       recheck(authCubit);
