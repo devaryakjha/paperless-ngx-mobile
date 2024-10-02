@@ -20,6 +20,7 @@ class _PaperlessState extends State<Paperless> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.binding.allowFirstFrame();
     });

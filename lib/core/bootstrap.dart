@@ -17,7 +17,6 @@ Future<void> bootstrap(
 ) async {
   await runZonedGuarded(
     () async {
-      getIt.init();
       // Initialize the Flutter binding.
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized()
         ..deferFirstFrame();
@@ -44,4 +43,6 @@ Future<void> initServices() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+
+  await getIt.init();
 }

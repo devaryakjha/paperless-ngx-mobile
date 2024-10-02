@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 abstract interface class ConnectivityChecker {
   const ConnectivityChecker();
@@ -16,8 +17,9 @@ abstract interface class ConnectivityChecker {
   Future<bool> isServerReachable(Uri serverUrl);
 }
 
+@Singleton(as: ConnectivityChecker)
 final class ConnectivityCheckerImpl implements ConnectivityChecker {
-  const ConnectivityCheckerImpl(this._connectivity);
+  ConnectivityCheckerImpl() : _connectivity = Connectivity();
 
   final Connectivity _connectivity;
 
