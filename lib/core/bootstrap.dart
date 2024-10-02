@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
@@ -27,7 +28,8 @@ Future<void> bootstrap(
       // Run the app.
       runApp(builder(widgetsBinding));
     },
-    (_, __) {
+    (e, __) {
+      log('Error: $e');
       // Handle errors.
     },
   );
