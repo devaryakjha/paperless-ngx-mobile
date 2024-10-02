@@ -28,6 +28,7 @@ class _AuthFormState extends State<AuthForm> {
     Widget? suffix,
     String? Function(String)? validator,
     void Function(String)? onChanged,
+    void Function(String)? onSubmitted,
     bool obscureText = false,
     TextEditingController? controller,
     bool autofocus = false,
@@ -54,10 +55,11 @@ class _AuthFormState extends State<AuthForm> {
       onChanged: onChanged,
       obscureText: obscureText,
       autofocus: autofocus,
+      onSubmitted: onSubmitted,
     );
   }
 
-  Future<void> _next() async {
+  Future<void> _next([_]) async {
     if (_serverStatus.isUnreachable) {
       ShadToaster.maybeOf(context)?.show(
         ShadToast.destructive(
@@ -165,6 +167,7 @@ class _AuthFormState extends State<AuthForm> {
                               }
                               return null;
                             },
+                            onSubmitted: _next,
                           ),
                         ],
                       ),
