@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_secure_storage: ^4.2.1
   flutter_svg: ^2.0.10+1
   gap: ^3.0.1
   get_it: ^7.7.0

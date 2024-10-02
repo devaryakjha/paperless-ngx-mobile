@@ -1,14 +1,17 @@
 // ignore_for_file: unused_field
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless/exports.dart'
     show
+        AuthCubit,
         CodegenLoader,
         ConnectivityChecker,
         ConnectivityCheckerImpl,
-        DismissFocusOverlay;
+        DismissFocusOverlay,
+        SessionManager,
+        getIt;
 
 /// Dependency Injection
 class DI extends StatefulWidget {
@@ -26,12 +29,15 @@ class DI extends StatefulWidget {
 }
 
 class _DIState extends State<DI> {
-  late final ConnectivityChecker _connectivityChecker;
+  late final AuthCubit _authCubit;
 
   @override
   void initState() {
     super.initState();
-    _connectivityChecker = ConnectivityCheckerImpl(Connectivity());
+    _authCubit = AuthCubit(
+      getIt<SessionManager>(),
+      getIt<ConnectivityChecker>(),
+    )..init();
   }
 
   @override
@@ -44,13 +50,11 @@ class _DIState extends State<DI> {
       startLocale: const Locale('en'),
       child: Builder(
         builder: (context) {
-          final app = widget.builder(context);
           return DismissFocusOverlay(
-            // child: BlocProvider.value(
-            //   value: _authCubit,
-            //   child: app,
-            // ),
-            child: app,
+            child: BlocProvider.value(
+              value: _authCubit,
+              child: widget.builder(context),
+            ),
           );
         },
       ),
