@@ -15,14 +15,13 @@ class DocumentsPage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr('Documents')),
-        actions: const [
-          ShadButton(
-            height: 24,
-            width: 24,
-            icon: ShadImage.square(LucideIcons.search, size: 16),
-          ),
-        ],
+        automaticallyImplyLeading: false,
+        titleSpacing: 4,
+        title: ShadInputFormField(
+          prefix: const ShadImage.square(LucideIcons.menu, size: 16),
+          placeholder: Text(tr('Search Documents')),
+          suffix: const ShadImage.square(LucideIcons.search, size: 16),
+        ),
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
@@ -42,6 +41,7 @@ class DocumentsList extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: context.read<DocumentsCubit>().getAll,
       child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         itemCount: docs.length,
         separatorBuilder: (context, index) => const Gap(24),
         itemBuilder: (context, index) {
@@ -56,13 +56,26 @@ class DocumentsList extends StatelessWidget {
             rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
             rowCrossAxisAlignment: CrossAxisAlignment.center,
             columnCrossAxisAlignment: CrossAxisAlignment.stretch,
-            title: Text(
-              doc.title,
-              style: context.textTheme.list,
+            title: Padding(
+              padding: const EdgeInsets.only(right: 8, bottom: 4),
+              child: Text(
+                doc.title,
+                style: context.textTheme.list,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            description: Text(
-              doc.created.formatted,
-              style: context.textTheme.small,
+            description: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(
+                doc.created.formatted,
+                style: context.textTheme.small.copyWith(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.normal,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -76,14 +89,12 @@ class DocumentsList extends StatelessWidget {
                   ),
                   onPressed: () {},
                 ),
-                const Gap(4),
                 ShadButton.ghost(
                   height: 24,
                   width: 24,
                   icon: const ShadImage.square(LucideIcons.download, size: 16),
                   onPressed: () {},
                 ),
-                const Gap(4),
                 ShadButton.ghost(
                   height: 24,
                   width: 24,
