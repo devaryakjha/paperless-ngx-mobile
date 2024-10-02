@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -30,7 +29,7 @@ final class SecureStorage {
 
     final encryptionBox = await Hive.openBox<String>(
       'encryptedBox',
-      bytes: Uint8List.fromList(encryptionKey),
+      encryptionCipher: HiveAesCipher(encryptionKey),
     );
 
     return SecureStorage(encryptionBox);
