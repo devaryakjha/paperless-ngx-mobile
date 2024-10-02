@@ -3,7 +3,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperless/exports.dart'
     show
         AuthCubit,
@@ -29,13 +28,11 @@ class DI extends StatefulWidget {
 
 class _DIState extends State<DI> {
   late final ConnectivityChecker _connectivityChecker;
-  late final AuthCubit _authCubit;
 
   @override
   void initState() {
     super.initState();
     _connectivityChecker = ConnectivityCheckerImpl(Connectivity());
-    _authCubit = AuthCubit(_connectivityChecker);
   }
 
   @override
@@ -50,10 +47,11 @@ class _DIState extends State<DI> {
         builder: (context) {
           final app = widget.builder(context);
           return DismissFocusOverlay(
-            child: BlocProvider.value(
-              value: _authCubit,
-              child: app,
-            ),
+            // child: BlocProvider.value(
+            //   value: _authCubit,
+            //   child: app,
+            // ),
+            child: app,
           );
         },
       ),

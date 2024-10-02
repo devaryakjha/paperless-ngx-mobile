@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:paperless/app/features/auth/view/widgets/auth_form.dart';
 import 'package:paperless/exports.dart' show PaperlessLogo;
 
 class AuthPage extends StatelessWidget {
@@ -18,7 +17,6 @@ class AuthPage extends StatelessWidget {
           Gap(16),
         ],
       ),
-      body: const AuthForm(),
     );
   }
 }
