@@ -20,7 +20,6 @@ class _PaperlessState extends State<Paperless> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.binding.allowFirstFrame();
     });
@@ -46,6 +45,13 @@ class _PaperlessState extends State<Paperless> {
           materialThemeBuilder: (context, theme) {
             return theme.copyWith(
               appBarTheme: theme.appBarTheme.copyWith(centerTitle: false),
+              navigationBarTheme: theme.navigationBarTheme.copyWith(
+                height: 48,
+                backgroundColor: theme.colorScheme.secondary,
+                indicatorColor: Colors.transparent,
+                surfaceTintColor: theme.colorScheme.surface,
+                labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              ),
             );
           },
         );

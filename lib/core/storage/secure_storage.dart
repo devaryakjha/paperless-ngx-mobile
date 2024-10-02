@@ -14,12 +14,13 @@ final class SecureStorage {
   static Future<SecureStorage> init() async {
     const secureStorage = FlutterSecureStorage();
     List<int> encryptionKey;
-    final containsEncryptionKey =
-        await secureStorage.containsKey(key: 'encryptionKey');
+    final containsEncryptionKey = await secureStorage.containsKey(
+      key: 'encryptionKey',
+    );
     if (!containsEncryptionKey) {
       encryptionKey = Hive.generateSecureKey();
       await secureStorage.write(
-        key: 'encryption_key',
+        key: 'encryptionKey',
         value: base64UrlEncode(encryptionKey),
       );
     } else {
