@@ -11,6 +11,8 @@
 import 'package:chopper/chopper.dart' as _i31;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:paperless/app/features/auth/data/services/auth_service.dart'
+    as _i82;
 import 'package:paperless/core/auth/session_manager.dart' as _i991;
 import 'package:paperless/core/network/client.dart' as _i421;
 import 'package:paperless/core/network/connectivity_checker.dart' as _i330;
@@ -28,6 +30,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final chopperModule = _$ChopperModule();
+    gh.singleton<_i31.ChopperClient>(() => chopperModule.chopperClient);
     await gh.singletonAsync<_i252.SecureStorage>(
       () => _i252.SecureStorage.init(),
       preResolve: true,
@@ -37,12 +40,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i991.SessionManager.init(gh<_i252.SecureStorage>()),
       preResolve: true,
     );
+    gh.singleton<_i82.AuthService>(
+        () => _i82.AuthService.create(gh<_i31.ChopperClient>()));
     gh.singleton<_i330.ConnectivityChecker>(
         () => _i330.ConnectivityCheckerImpl());
-    gh.lazySingleton<_i31.ChopperClient>(
-      () => chopperModule.chopperClient,
-      instanceName: 'client',
-    );
     return this;
   }
 }

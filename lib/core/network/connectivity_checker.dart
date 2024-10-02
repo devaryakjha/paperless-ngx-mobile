@@ -40,10 +40,27 @@ final class ConnectivityCheckerImpl implements ConnectivityChecker {
   @override
   Future<bool> isServerReachable(Uri serverUrl) async {
     try {
-      final response = await http.get(serverUrl);
+      final response = await http.get(cleanupServerUrl(serverUrl));
       return response.statusCode == 200;
     } catch (_) {
       return false;
     }
+  }
+
+  Uri cleanupServerUrl(Uri serverUrl) {
+    if (serverUrl.scheme.isEmpty) {
+      return serverUrl.replace(scheme: 'https');
+    }
+    // if the url isn't ending with / add it
+    if (!serverUrl.path.endsWith('/')) {
+      return serverUrl.replace(path: '${serverUrl.path}/');
+    }
+
+    // if the url isn't ending with /api/ add it
+    if (!serverUrl.path.endsWith('/api/')) {
+      return serverUrl.replace(path: '${serverUrl.path}/api/');
+    }
+
+    return serverUrl;
   }
 }

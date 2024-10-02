@@ -24,8 +24,7 @@ class _AuthFormState extends State<AuthForm> {
 
   void _next([_]) {
     final cubit = context.read<AuthCubit>();
-    final authStatus = cubit.state.status;
-    final isServerValid = authStatus == AuthStatus.serverValid;
+    final isServerValid = cubit.state.serverValidated;
     if (!isServerValid) {
       _triggerServerValidation(cubit);
     } else {
@@ -54,8 +53,9 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    final authStatus = context.select((AuthCubit cubit) => cubit.state.status);
-    final isServerValid = authStatus.serverValidated;
+    final (authStatus, isServerValid) = context.select(
+        (AuthCubit cubit) => (cubit.state.status, cubit.state.serverValidated));
+
     final loading = authStatus.showLoading;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
