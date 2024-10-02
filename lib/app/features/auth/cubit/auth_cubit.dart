@@ -68,4 +68,9 @@ class AuthCubit extends Cubit<AuthState> {
       print(e);
     }
   }
+
+  Future<void> signout() async {
+    await _sessionManager.removeSession(_sessionManager.activeSession!);
+    emit(AuthState(sessions: _sessionManager.sessions));
+  }
 }

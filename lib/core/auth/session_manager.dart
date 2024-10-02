@@ -30,7 +30,7 @@ final class SessionManager {
 
     final currentSessionId = await secureStorage.read('current_session_id');
     final currentSession = currentSessionId != null
-        ? sessions.firstWhere((s) => s.uniqueId == currentSessionId)
+        ? sessions.firstWhereOrNull((s) => s.uniqueId == currentSessionId)
         : null;
     return SessionManager(secureStorage, sessions, currentSession);
   }
