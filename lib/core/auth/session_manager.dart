@@ -61,6 +61,10 @@ final class SessionManager {
 
   Future<void> removeSession(Session session) async {
     _sessions.remove(session);
+    if (activeSession?.uniqueId == session.uniqueId) {
+      activeSession = null;
+      await _secureStorage.delete('current_session_id');
+    }
     await _saveSessions();
   }
 

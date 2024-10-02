@@ -69,6 +69,7 @@ class _AuthFormState extends State<AuthForm> {
             child: AutofillGroup(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'auth.title',
@@ -126,6 +127,7 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   ShadButton(
                     onPressed: _next,
+                    enabled: !loading,
                     child: loading
                         ? SizedBox.square(
                             dimension: 16,

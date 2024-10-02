@@ -18,9 +18,9 @@ class DocumentsPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         titleSpacing: 4,
         title: ShadInputFormField(
-          prefix: const ShadImage.square(LucideIcons.menu, size: 16),
+          prefix: const ShadImage.square(LucideIcons.menu, size: 24),
           placeholder: Text(tr('Search Documents')),
-          suffix: const ShadImage.square(LucideIcons.search, size: 16),
+          suffix: const ShadImage.square(LucideIcons.search, size: 24),
         ),
       ),
       body: loading
@@ -43,65 +43,69 @@ class DocumentsList extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         itemCount: docs.length,
-        separatorBuilder: (context, index) => const Gap(24),
+        separatorBuilder: (context, index) => const Gap(16),
         itemBuilder: (context, index) {
           final doc = docs[index];
-          return ShadCard(
-            padding: const EdgeInsets.all(16),
-            leading: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: DocumentPreview(doc),
-            ),
-            rowMainAxisSize: MainAxisSize.min,
-            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-            rowCrossAxisAlignment: CrossAxisAlignment.center,
-            columnCrossAxisAlignment: CrossAxisAlignment.stretch,
-            title: Padding(
-              padding: const EdgeInsets.only(right: 8, bottom: 4),
-              child: Text(
-                doc.title,
-                style: context.textTheme.list,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+          return Padding(
+            padding: EdgeInsets.only(top: index == 0 ? 24 : 0),
+            child: ShadCard(
+              padding: const EdgeInsets.all(16),
+              leading: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: DocumentPreview(doc),
               ),
-            ),
-            description: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Text(
-                doc.created.formatted,
-                style: context.textTheme.small.copyWith(
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.normal,
+              rowMainAxisSize: MainAxisSize.min,
+              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+              rowCrossAxisAlignment: CrossAxisAlignment.center,
+              columnCrossAxisAlignment: CrossAxisAlignment.stretch,
+              title: Padding(
+                padding: const EdgeInsets.only(right: 8, bottom: 4),
+                child: Text(
+                  doc.title,
+                  style: context.textTheme.list,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ShadButton.ghost(
-                  height: 24,
-                  width: 24,
-                  icon: const ShadImage.square(
-                    LucideIcons.externalLink,
-                    size: 16,
+              description: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(
+                  doc.created.formatted,
+                  style: context.textTheme.small.copyWith(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.normal,
                   ),
-                  onPressed: () {},
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                ShadButton.ghost(
-                  height: 24,
-                  width: 24,
-                  icon: const ShadImage.square(LucideIcons.download, size: 16),
-                  onPressed: () {},
-                ),
-                ShadButton.ghost(
-                  height: 24,
-                  width: 24,
-                  icon: const ShadImage.square(LucideIcons.trash, size: 16),
-                  onPressed: () {},
-                ),
-              ],
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShadButton.ghost(
+                    height: 32,
+                    width: 32,
+                    icon: const ShadImage.square(
+                      LucideIcons.externalLink,
+                      size: 24,
+                    ),
+                    onPressed: () {},
+                  ),
+                  ShadButton.ghost(
+                    height: 32,
+                    width: 32,
+                    icon:
+                        const ShadImage.square(LucideIcons.download, size: 24),
+                    onPressed: () {},
+                  ),
+                  ShadButton.ghost(
+                    height: 32,
+                    width: 32,
+                    icon: const ShadImage.square(LucideIcons.trash, size: 24),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
           );
         },

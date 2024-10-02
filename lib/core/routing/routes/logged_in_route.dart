@@ -108,8 +108,7 @@ final class LabelsPageData extends GoRouteData {
 final class SettingsPageData extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // return SettingsPage(key: state.pageKey);
-    return const Placeholder();
+    return SettingsPage(key: state.pageKey);
   }
 }
 
@@ -127,45 +126,48 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
     return Container(
-      height: 56 + bottomPadding,
+      height: 64 + bottomPadding,
       color: context.colorScheme.secondary,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            BottomNavDest(
-              label: 'Home',
-              icon: LucideIcons.house,
-              onPressed: () => onDestinationSelected(0),
-              selected: currentIndex == 0,
-            ),
-            BottomNavDest(
-              label: 'Documents',
-              icon: LucideIcons.fileText,
-              onPressed: () => onDestinationSelected(1),
-              selected: currentIndex == 1,
-            ),
-            BottomNavDest(
-              label: 'Scanner',
-              icon: LucideIcons.scan,
-              onPressed: () => onDestinationSelected(2),
-              selected: currentIndex == 2,
-            ),
-            BottomNavDest(
-              label: 'Labels',
-              icon: LucideIcons.tag,
-              onPressed: () => onDestinationSelected(3),
-              selected: currentIndex == 3,
-            ),
-            BottomNavDest(
-              label: 'Settings',
-              icon: LucideIcons.settings,
-              onPressed: () => onDestinationSelected(4),
-              selected: currentIndex == 4,
-            ),
-          ],
-        ),
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          BottomNavDest(
+            label: 'Home',
+            icon: LucideIcons.house,
+            onPressed: () => onDestinationSelected(0),
+            selected: currentIndex == 0,
+          ),
+          BottomNavDest(
+            label: 'Documents',
+            icon: LucideIcons.fileText,
+            onPressed: () => onDestinationSelected(1),
+            selected: currentIndex == 1,
+          ),
+          BottomNavDest(
+            label: 'Scanner',
+            icon: LucideIcons.scan,
+            onPressed: () => onDestinationSelected(2),
+            selected: currentIndex == 2,
+          ),
+          BottomNavDest(
+            label: 'Labels',
+            icon: LucideIcons.tag,
+            onPressed: () => onDestinationSelected(3),
+            selected: currentIndex == 3,
+          ),
+          BottomNavDest(
+            label: 'Settings',
+            icon: LucideIcons.settings,
+            onPressed: () => onDestinationSelected(4),
+            selected: currentIndex == 4,
+          ),
+        ],
       ),
     );
   }
@@ -219,7 +221,7 @@ class _BottomNavDestState extends State<BottomNavDest> {
               context.colorScheme.background.withAlpha(!hidden ? 120 : 0),
           foregroundColor:
               context.colorScheme.foreground.withAlpha(!hidden ? 255 : 200),
-          icon: ShadImage.square(widget.icon, size: 16),
+          icon: ShadImage.square(widget.icon, size: 24),
           onPressed: widget.onPressed,
           child: widget.selected ? Text(widget.label) : null,
         ),
