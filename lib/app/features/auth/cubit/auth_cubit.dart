@@ -64,7 +64,7 @@ class AuthCubit extends Cubit<AuthState> {
         });
         final user = await _userService.findCurrentUser(
           session.username,
-          MultiTags([baseUrlTag, InjectTokenTag(token)]),
+          MultiTags([baseUrlTag, InjectTokenTag(session.token)]),
         );
         session = session.copyWith(currentUser: user.body);
         await _sessionManager.addSession(session, setAsactive: true);
