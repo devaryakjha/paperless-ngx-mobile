@@ -7,27 +7,32 @@ class AuthState extends Equatable {
     this.activeSession,
     this.status = AuthStatus.initial,
     this.serverValidated = false,
+    this.errors = const [],
   });
 
   final List<Session> sessions;
   final Session? activeSession;
   final AuthStatus status;
   final bool serverValidated;
+  final List<dynamic> errors;
 
   @override
-  List<Object?> get props => [sessions, activeSession, status, serverValidated];
+  List<Object?> get props =>
+      [sessions, activeSession, status, serverValidated, errors];
 
   AuthState copyWith({
     List<Session>? sessions,
     Session? activeSession,
     AuthStatus? status,
     bool? serverValidated,
+    List<dynamic>? errors,
   }) {
     return AuthState(
       sessions: sessions ?? this.sessions,
       activeSession: activeSession ?? this.activeSession,
       status: status ?? this.status,
       serverValidated: serverValidated ?? this.serverValidated,
+      errors: errors ?? this.errors,
     );
   }
 }

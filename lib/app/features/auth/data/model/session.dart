@@ -27,7 +27,7 @@ final class Session extends Equatable {
   Map<String, dynamic> toJson() => _$SessionToJson(this);
 
   @override
-  List<Object?> get props => [user, token, serverUri];
+  List<Object?> get props => [user, token, serverUri, username, password];
 
   Session copyWith({
     UserModel? currentUser,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   void resetStatus() => emit(state.copyWith(serverValidated: false));
 
+  void resetErrors() =>
+      emit(state.copyWith(errors: [], status: AuthStatus.initial));
+
   Future<void> checkServer(String server, [VoidCallback? onError]) async {
     emit(state.copyWith(status: AuthStatus.checkingServer));
     final serverUri = Uri.parse(server);
@@ -48,24 +53,36 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signIn(Map<String, String> payload) async {
     try {
+      final baseUrlTag = BaseUrlTag(Uri.parse(payload['server']!));
       emit(state.copyWith(status: AuthStatus.authenticating));
-      var session = Session.fromJson({...payload, 'token': ''});
-      await _sessionManager.addSession(session, setAsactive: true);
-      final token = await _authService.signIn(payload);
-      session = session.copyWith(token: token.body);
-      await _sessionManager.addSession(session, setAsactive: true);
-      final user = await _userService.findCurrentUser(session.username);
-      session = session.copyWith(currentUser: user.body);
-      await _sessionManager.updateSession(session);
-      emit(
-        state.copyWith(
-          status: AuthStatus.authenticated,
-          activeSession: _sessionManager.activeSession,
-          sessions: _sessionManager.sessions,
-        ),
-      );
+      final tokenRes = await _authService.signIn(payload, baseUrlTag);
+      if (tokenRes.isSuccessful) {
+        final token = tokenRes.body!;
+        var session = Session.fromJson({
+          ...payload,
+          'token': token,
+        });
+        final user = await _userService.findCurrentUser(
+          session.username,
+          MultiTags([baseUrlTag, InjectTokenTag(token)]),
+        );
+        session = session.copyWith(currentUser: user.body);
+        await _sessionManager.addSession(session, setAsactive: true);
+        emit(
+          state.copyWith(
+            status: AuthStatus.authenticated,
+            activeSession: _sessionManager.activeSession,
+            sessions: _sessionManager.sessions,
+          ),
+        );
+      } else {
+        final error =
+            jsonDecode(tokenRes.error! as String) as Map<String, dynamic>;
+        final messages = error['non_field_errors'] as List<dynamic>;
+        emit(state.copyWith(status: AuthStatus.error, errors: messages));
+      }
     } catch (e) {
-      print(e);
+      emit(state.copyWith(status: AuthStatus.error));
     }
   }
 

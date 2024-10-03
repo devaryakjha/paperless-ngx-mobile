@@ -78,7 +78,7 @@ final class SessionManager {
   Future<void> _saveSessions() async {
     await _secureStorage.write(
       key: 'sessions',
-      value: jsonEncode(_sessions),
+      value: jsonEncode(_sessions.map((s) => s.toJson()).toList()),
     );
   }
 }

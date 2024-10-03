@@ -10,15 +10,21 @@ class DocumentsCubit extends Cubit<DocumentsState> {
   DocumentsService get _documentsService => getIt<DocumentsService>();
 
   Future<void> getAll() async {
-    emit(state.copyWith(fetchState: FetchState.loading));
-    final response = await _documentsService.getAll();
-    if (response.isSuccessful) {
-      emit(
-        state.copyWith(
-          document: response.body!.results,
-          fetchState: FetchState.success,
-        ),
-      );
+    try {
+      emit(state.copyWith(fetchState: FetchState.loading));
+      final response = await _documentsService.getAll();
+      if (response.isSuccessful) {
+        emit(
+          state.copyWith(
+            document: response.body!.results,
+            fetchState: FetchState.success,
+          ),
+        );
+        return;
+      }
+      emit(state.copyWith(fetchState: FetchState.error));
+    } catch (e) {
+      emit(state.copyWith(fetchState: FetchState.error));
     }
   }
 }

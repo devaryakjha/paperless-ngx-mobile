@@ -12,14 +12,11 @@ abstract class AuthService extends ChopperService {
   @factoryMethod
   static AuthService create(ChopperClient client) => _$AuthService(client);
 
-  @FactoryConverter(response: _createReponse, request: _createRequest)
+  @FactoryConverter(response: _createReponse)
   @Post(path: 'token/')
-  Future<Response<String>> signIn(@Body() Map<String, String> payload);
-}
-
-Request _createRequest(Request req) {
-  return req.copyWith(
-    tag: noAuthorization,
+  Future<Response<String>> signIn(
+    @Body() Map<String, String> payload,
+    @Tag() BaseUrlTag baseUrl,
   );
 }
 

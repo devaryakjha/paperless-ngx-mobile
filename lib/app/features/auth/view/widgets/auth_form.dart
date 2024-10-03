@@ -58,92 +58,112 @@ class _AuthFormState extends State<AuthForm> {
     );
 
     final loading = authStatus.showLoading;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ShadForm(
-        enabled: !loading,
-        key: _formkey,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 400),
-            child: AutofillGroup(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'auth.title',
-                    style: context.textTheme.h2,
-                    textAlign: TextAlign.center,
-                  ).tr(),
-                  const Gap(36),
-                  InputField(
-                    'server',
-                    icon: LucideIcons.server,
-                    textInputAction: isServerValid
-                        ? TextInputAction.next
-                        : TextInputAction.done,
-                    onSubmitted: isServerValid ? null : _next,
-                    suffixIcon: isServerValid ? LucideIcons.check : null,
-                    suffixIconColor: Colors.green,
-                    controller: _serverController,
-                    onChanged: (value) {
-                      if (isServerValid) {
-                        context.read<AuthCubit>().resetStatus();
-                      }
-                    },
-                    autofocus: true,
-                  ),
-                  const Gap(16),
-                  AnimatedSize(
-                    duration: kThemeAnimationDuration,
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      height: isServerValid ? null : 0,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const InputField('username', icon: LucideIcons.user),
-                          const Gap(16),
-                          InputField(
-                            'password',
-                            obscureText: hidePassword,
-                            onSuffixPressed: () =>
-                                setState(() => hidePassword = !hidePassword),
-                            icon: LucideIcons.lock,
-                            suffix: ShadImage.square(
-                              size: 16,
-                              hidePassword
-                                  ? LucideIcons.eye
-                                  : LucideIcons.eyeOff,
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) => previous.errors != current.errors,
+      listener: (context, state) {
+        final errors = List<String>.from(state.errors);
+        if (errors.isNotEmpty) {
+          for (final error in errors) {
+            ShadToaster.maybeOf(context)?.show(
+              ShadToast.destructive(
+                title: const Text('Error occurred'),
+                description: Text(error),
+              ),
+            );
+          }
+          context.read<AuthCubit>().resetErrors();
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ShadForm(
+          enabled: !loading,
+          key: _formkey,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 400),
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'auth.title',
+                      style: context.textTheme.h2,
+                      textAlign: TextAlign.center,
+                    ).tr(),
+                    const Gap(36),
+                    InputField(
+                      'server',
+                      icon: LucideIcons.server,
+                      textInputAction: isServerValid
+                          ? TextInputAction.next
+                          : TextInputAction.done,
+                      onSubmitted: isServerValid ? null : _next,
+                      suffixIcon: isServerValid ? LucideIcons.check : null,
+                      suffixIconColor: Colors.green,
+                      controller: _serverController,
+                      onChanged: (value) {
+                        if (isServerValid) {
+                          context.read<AuthCubit>().resetStatus();
+                        }
+                      },
+                      autofocus: true,
+                    ),
+                    const Gap(16),
+                    AnimatedSize(
+                      duration: kThemeAnimationDuration,
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        height: isServerValid ? null : 0,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const InputField(
+                              'username',
+                              icon: LucideIcons.user,
                             ),
-                            textInputAction: TextInputAction.done,
-                            onSubmitted: _next,
-                          ),
-                          const Gap(24),
-                        ],
+                            const Gap(16),
+                            InputField(
+                              'password',
+                              obscureText: hidePassword,
+                              onSuffixPressed: () =>
+                                  setState(() => hidePassword = !hidePassword),
+                              icon: LucideIcons.lock,
+                              suffix: ShadImage.square(
+                                size: 16,
+                                hidePassword
+                                    ? LucideIcons.eye
+                                    : LucideIcons.eyeOff,
+                              ),
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: _next,
+                            ),
+                            const Gap(24),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  ShadButton(
-                    onPressed: _next,
-                    enabled: !loading,
-                    child: loading
-                        ? SizedBox.square(
-                            dimension: 16,
-                            child: CircularProgressIndicator(
-                              strokeCap: StrokeCap.round,
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation(
-                                context.primaryButtonTheme.foregroundColor,
+                    ShadButton(
+                      onPressed: _next,
+                      enabled: !loading,
+                      child: loading
+                          ? SizedBox.square(
+                              dimension: 16,
+                              child: CircularProgressIndicator(
+                                strokeCap: StrokeCap.round,
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation(
+                                  context.primaryButtonTheme.foregroundColor,
+                                ),
                               ),
-                            ),
-                          )
-                        : !isServerValid
-                            ? const Text('auth.action.validate').tr()
-                            : const Text('auth.action.sign_in').tr(),
-                  ),
-                ],
+                            )
+                          : !isServerValid
+                              ? const Text('auth.action.validate').tr()
+                              : const Text('auth.action.sign_in').tr(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

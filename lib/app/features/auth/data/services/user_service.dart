@@ -17,8 +17,9 @@ abstract class UserService extends ChopperService {
   )
   @Get(path: 'users/')
   Future<Response<UserModel>> findCurrentUser(
-    @Query('username__iexact') String username,
-  );
+    @Query('username__iexact') String username, [
+    @Tag() InterceptorTag? baseUrlTag,
+  ]);
 }
 
 Response<UserModel> _createReponse(Response<dynamic> res) {

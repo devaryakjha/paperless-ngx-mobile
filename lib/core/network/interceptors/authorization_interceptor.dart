@@ -7,15 +7,28 @@ import 'package:paperless/exports.dart';
 final class AuthorizationInterceptor implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) {
-    if (chain.request.tag == noAuthorization) {
+    final tag = chain.request.tag as InterceptorTag?;
+    final noAuth = tag?.find<NoAuthorizationTag>() != null;
+    if (noAuth) {
       return chain.proceed(chain.request);
     }
-    final sessionManager = getIt<SessionManager>();
-    if (sessionManager.activeSession != null) {
+
+    String? token;
+    final injectToken = tag?.find<InjectTokenTag>();
+
+    if (injectToken != null) {
+      token = injectToken.token;
+    } else {
+      final sessionManager = getIt<SessionManager>();
+      final session = sessionManager.activeSession;
+      token = session?.token;
+    }
+
+    if (token != null && token.isNotEmpty) {
       final req = applyHeader(
         chain.request,
         HttpHeaders.authorizationHeader,
-        'Token ${sessionManager.activeSession?.token ?? ''}',
+        'Token $token',
       );
 
       return chain.proceed(req);

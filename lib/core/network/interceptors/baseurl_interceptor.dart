@@ -10,6 +10,17 @@ final class BaseurlInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
+    final tag = chain.request.tag;
+    if (tag is InterceptorTag) {
+      final baseUrlTag = tag.find<BaseUrlTag>();
+      if (baseUrlTag != null) {
+        return chain.proceed(
+          chain.request.copyWith(
+            baseUri: cleanupServerUrl(baseUrlTag.baseUri),
+          ),
+        );
+      }
+    }
     final sessionManager = getIt<SessionManager>();
     final request = sessionManager.activeSession != null
         ? chain.request.copyWith(
