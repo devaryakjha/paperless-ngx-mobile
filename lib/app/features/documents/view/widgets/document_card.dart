@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless/app/features/documents/view/widgets/document_preview.dart';
 import 'package:paperless/exports.dart';
@@ -24,83 +23,85 @@ class _DocumentCardState extends State<DocumentCard> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadCard(
-      padding: const EdgeInsets.all(16),
-      leading: Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: DocumentPreview(widget.document),
-      ),
-      rowMainAxisSize: MainAxisSize.min,
-      rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-      rowCrossAxisAlignment: CrossAxisAlignment.center,
-      columnCrossAxisAlignment: CrossAxisAlignment.stretch,
-      title: Padding(
-        padding: const EdgeInsets.only(right: 8, bottom: 4),
-        child: Text(
-          widget.document.title,
-          style: context.textTheme.list,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(8),
+      splashColor: context.colorScheme.secondary,
+      child: ShadCard(
+        padding: const EdgeInsets.all(16),
+        leading: Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: DocumentPreview(widget.document),
         ),
-      ),
-      description: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: Text(
-          widget.document.created.formatted,
-          style: context.textTheme.small.copyWith(
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.normal,
+        backgroundColor: Colors.transparent,
+        rowMainAxisSize: MainAxisSize.min,
+        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+        rowCrossAxisAlignment: CrossAxisAlignment.center,
+        columnCrossAxisAlignment: CrossAxisAlignment.stretch,
+        title: Padding(
+          padding: const EdgeInsets.only(right: 8, bottom: 4),
+          child: Text(
+            widget.document.title,
+            style: context.textTheme.list,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
         ),
-      ),
-      trailing: ShadPopover(
-        controller: popoverController,
-        popover: (BuildContext context) {
-          return SizedBox(
-            width: 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ActionButton(
-                  icon: LucideIcons.externalLink,
-                  label: 'Open in browser',
-                  onPressed: () {
-                    // TODO: Open in browser
-                  },
-                ),
-                ActionButton(
-                  icon: LucideIcons.download,
-                  label: 'Download',
-                  onPressed: () {
-                    // TODO: Download
-                  },
-                ),
-                ActionButton(
-                  icon: LucideIcons.trash,
-                  label: 'Delete',
-                  onPressed: () {
-                    // TODO: Delete
-                  },
-                ),
-              ],
+        description: Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: Text(
+            widget.document.created.formatted,
+            style: context.textTheme.small.copyWith(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.normal,
             ),
-          );
-        },
-        child: ShadButton.ghost(
-          size: ShadButtonSize.sm,
-          icon: const ShadImage.square(LucideIcons.ellipsis, size: 16),
-          onPressed: popoverController.toggle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        trailing: ShadPopover(
+          controller: popoverController,
+          popover: (BuildContext context) {
+            return SizedBox(
+              width: 200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ActionButton(
+                    icon: LucideIcons.externalLink,
+                    label: 'Open in browser',
+                    onPressed: () {
+                      // TODO(Arya): Open in browser
+                    },
+                  ),
+                  ActionButton(
+                    icon: LucideIcons.download,
+                    label: 'Download',
+                    onPressed: () {
+                      // TODO(Arya): Download
+                    },
+                  ),
+                  ActionButton(
+                    icon: LucideIcons.trash,
+                    label: 'Delete',
+                    onPressed: () {
+                      // TODO(Arya): Delete
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+          child: ShadButton.ghost(
+            size: ShadButtonSize.sm,
+            icon: const ShadImage.square(LucideIcons.ellipsis, size: 16),
+            onPressed: popoverController.toggle,
+          ),
         ),
       ),
     );
   }
-}
-
-extension on DateTime {
-  String get formatted => DateFormat.yMMMEd().format(this);
 }
 
 class ActionButton extends StatelessWidget {

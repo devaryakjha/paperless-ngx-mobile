@@ -861,11 +861,12 @@ packages:
   shadcn_ui:
     dependency: "direct main"
     description:
-      name: shadcn_ui
-      sha256: "758cc810e0b1812ac430514fa9b88ffd42e2bd996276a87412784aa4daa2fca2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.8"
+      path: "."
+      ref: "feat/support-custom-headers-for-image"
+      resolved-ref: "07d76429ee38d0ac38dc98279bfb215996a79a2f"
+      url: "git@github.com:devaryakjha/flutter-shadcn-ui.git"
+    source: git
+    version: "0.11.1"
   shared_preferences:
     dependency: transitive
     description:

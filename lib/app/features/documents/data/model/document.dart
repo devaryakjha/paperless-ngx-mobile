@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -64,4 +65,8 @@ final class Document extends Equatable {
       ];
 
   String get thumbUrl => 'documents/$id/thumb/';
+}
+
+extension DocumentDateExt on DateTime {
+  String get formatted => DateFormat.yMMMEd().format(this);
 }
