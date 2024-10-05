@@ -65,6 +65,10 @@ final class Document extends Equatable {
       ];
 
   String get thumbUrl => 'documents/$id/thumb/';
+
+  String get previewUrl => 'documents/$id/preview/';
+
+  String get downloadUrl => 'documents/$id/download/';
 }
 
 extension DocumentDateExt on DateTime {

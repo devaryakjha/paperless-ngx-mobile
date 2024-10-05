@@ -24,7 +24,9 @@ class _DocumentCardState extends State<DocumentCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        DocumentPreviewPageData(widget.document.id).push<void>(context);
+      },
       borderRadius: BorderRadius.circular(8),
       splashColor: context.colorScheme.secondary,
       child: ShadCard(

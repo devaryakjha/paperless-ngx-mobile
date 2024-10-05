@@ -22,4 +22,10 @@ final class DocumentsState extends Equatable {
       document: document ?? this.document,
     );
   }
+
+  Document? findById(int id) {
+    return document.firstWhereOrNull(
+      (element) => element.id == id,
+    );
+  }
 }

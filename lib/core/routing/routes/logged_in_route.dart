@@ -21,6 +21,9 @@ part 'logged_in_route.g.dart';
         TypedGoRoute<DocumentsPageData>(
           path: '/${Routes.documents}',
         ),
+        TypedGoRoute<DocumentPreviewPageData>(
+          path: '/${Routes.documents}/:docId',
+        ),
       ],
     ),
     TypedStatefulShellBranch(
@@ -64,19 +67,15 @@ final class LoggedInRoute extends StatefulShellRouteData {
             body: navigationShell,
             bottomNavigationBar: BottomNavBar(
               currentIndex: navigationShell.currentIndex,
-              onDestinationSelected: navigationShell.goBranch,
+              onDestinationSelected: (idx) => navigationShell.goBranch(
+                idx,
+                initialLocation: navigationShell.currentIndex == idx,
+              ),
             ),
           );
         },
       ),
     );
-  }
-}
-
-final class DocumentsPageData extends GoRouteData {
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return DocumentsPage(key: state.pageKey);
   }
 }
 

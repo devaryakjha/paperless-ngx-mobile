@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:paperless/exports.dart';
 
 class DocumentPreview extends StatelessWidget with SessionManagerMixin {
-  const DocumentPreview(this.document, {super.key});
+  const DocumentPreview(
+    this.document, {
+    super.key,
+    this.size = const Size.square(48),
+  });
 
   final Document document;
+  final Size size;
 
   String get imageUrl => activeSession.cleanServerUrl + document.thumbUrl;
 
@@ -14,11 +19,11 @@ class DocumentPreview extends StatelessWidget with SessionManagerMixin {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        width: 48,
-        height: 48,
-        httpHeaders: authHeaders,
+        width: size.width,
+        height: size.height,
         fit: BoxFit.cover,
+        imageUrl: imageUrl,
+        httpHeaders: authHeaders,
       ),
     );
   }
