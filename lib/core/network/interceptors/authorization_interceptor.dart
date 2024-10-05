@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:chopper/chopper.dart';
 import 'package:paperless/exports.dart';
 
-final class AuthorizationInterceptor implements Interceptor {
+final class AuthorizationInterceptor
+    with SessionManagerMixin
+    implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) {
     final tag = chain.request.tag as InterceptorTag?;
     final noAuth = tag?.find<NoAuthorizationTag>() != null;
+
     if (noAuth) {
       return chain.proceed(chain.request);
     }
@@ -19,7 +22,6 @@ final class AuthorizationInterceptor implements Interceptor {
     if (injectToken != null) {
       token = injectToken.token;
     } else {
-      final sessionManager = getIt<SessionManager>();
       final session = sessionManager.activeSession;
       token = session?.token;
     }

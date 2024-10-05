@@ -46,4 +46,8 @@ final class Session extends Equatable {
   }
 
   String get uniqueId => '$username@$serverUri';
+
+  Uri get cleandedUri => cleanupServerUrl(serverUri);
+  String get serverUrl => serverUri.toString();
+  String get cleanServerUrl => cleandedUri.toString();
 }

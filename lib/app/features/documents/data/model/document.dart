@@ -63,5 +63,5 @@ final class Document extends Equatable {
         userCanChange,
       ];
 
-  String get thumUrl => 'documents/$id/thumb/';
+  String get thumbUrl => 'documents/$id/thumb/';
 }

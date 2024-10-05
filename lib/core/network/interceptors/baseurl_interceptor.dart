@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:chopper/chopper.dart';
 import 'package:paperless/exports.dart';
 
-final class BaseurlInterceptor implements Interceptor {
+final class BaseurlInterceptor with SessionManagerMixin implements Interceptor {
   BaseurlInterceptor();
 
   @override
@@ -21,8 +21,7 @@ final class BaseurlInterceptor implements Interceptor {
         );
       }
     }
-    final sessionManager = getIt<SessionManager>();
-    final request = sessionManager.activeSession != null
+    final request = isUserLoggedIn
         ? chain.request.copyWith(
             baseUri: cleanupServerUrl(sessionManager.activeSession!.serverUri),
           )

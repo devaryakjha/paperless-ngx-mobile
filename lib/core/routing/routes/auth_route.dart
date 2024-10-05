@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:paperless/exports.dart'
-    show AuthPage, Routes, RoutesX, SessionManager, getIt;
+import 'package:paperless/core/auth/session_manager.dart';
+import 'package:paperless/exports.dart' show AuthPage, Routes, RoutesX;
 
 part 'auth_route.g.dart';
 
@@ -11,13 +11,10 @@ part 'auth_route.g.dart';
   path: '/${Routes.auth}',
   name: Routes.auth,
 )
-final class AuthRoute extends GoRouteData {
+final class AuthRoute extends GoRouteData with SessionManagerMixin {
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    final sessionManager = getIt<SessionManager>();
-    if (sessionManager.activeSession != null) {
-      return Routes.documents.location;
-    }
+    if (isUserLoggedIn) return Routes.documents.location;
     return null;
   }
 

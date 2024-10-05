@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -81,4 +82,23 @@ final class SessionManager {
       value: jsonEncode(_sessions.map((s) => s.toJson()).toList()),
     );
   }
+}
+
+mixin SessionManagerMixin {
+  SessionManager get sessionManager => getIt<SessionManager>();
+
+  Session get activeSession {
+    if (!isUserLoggedIn) {
+      throw Exception('No active session found');
+    }
+    return sessionManager.activeSession!;
+  }
+
+  String get token => activeSession.token;
+
+  Map<String, String> get authHeaders => {
+        HttpHeaders.authorizationHeader: 'Token $token',
+      };
+
+  bool get isUserLoggedIn => sessionManager.activeSession != null;
 }
