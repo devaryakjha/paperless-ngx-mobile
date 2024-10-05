@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:paperless/exports.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
     required this.currentIndex,
     required this.onDestinationSelected,
@@ -15,11 +15,6 @@ class BottomNavBar extends StatefulWidget {
   final int currentIndex;
   final ValueChanged<int> onDestinationSelected;
 
-  @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
   static final _navItems = [
     NavItem(icon: LucideIcons.house, label: 'Home'.tr()),
     NavItem(icon: LucideIcons.fileText, label: 'Documents'.tr()),
@@ -27,8 +22,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     NavItem(icon: LucideIcons.tag, label: 'Labels'.tr()),
     NavItem(icon: LucideIcons.settings, label: 'Settings'.tr()),
   ];
-
-  static final _keys = List.generate(_navItems.length, (index) => GlobalKey());
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +41,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   Widget _buildNavItem(BuildContext context, NavItem item, int index) {
-    final isSelected = widget.currentIndex == index;
+    final isSelected = currentIndex == index;
     final color = isSelected
         ? context.colorScheme.primary
         : context.colorScheme.secondaryForeground.withOpacity(0.5);
 
     return AnimatedSize(
-      key: _keys[index],
       alignment: Alignment.centerLeft,
       duration: const Duration(milliseconds: 200),
       child: AnimatedContainer(
@@ -70,7 +62,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               size: ShadButtonSize.sm,
               backgroundColor: Colors.transparent,
               onPressed: () {
-                widget.onDestinationSelected(index);
+                onDestinationSelected(index);
                 Scrollable.ensureVisible(
                   context,
                   alignmentPolicy:
