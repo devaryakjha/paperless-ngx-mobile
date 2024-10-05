@@ -79,7 +79,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               },
               icon: ShadImage.square(item.icon, size: 24),
               foregroundColor: color,
-              pressedBackgroundColor: Colors.transparent,
+              pressedBackgroundColor: context.bgColor,
+              pressedForegroundColor: context.fgColor,
               gap: isSelected ? 12 : 0,
               child: SizedBox(
                 width: isSelected ? null : 0,
